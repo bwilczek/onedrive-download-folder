@@ -16,6 +16,3 @@ are available in `/path/to/download`.
 HINT: Use single quote around the 1drv URL since it usually contains `!`
 which is by default interpreted by `bash`.
 
-### TODO ###
-
-* get rid of `including Capybara::DSL in the global scope is not recommended!`

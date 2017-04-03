@@ -1,5 +1,4 @@
 require 'capybara'
-require 'capybara/dsl'
 require 'selenium/webdriver'
 
 starting_url = ARGV[0]
@@ -10,6 +9,7 @@ end
 
 puts "URL: #{starting_url}"
 
+# set as container volume, change for local test without container
 download_dir = '/download'
 
 Capybara.register_driver :firefox_auto_download do |app|
@@ -21,11 +21,10 @@ Capybara.register_driver :firefox_auto_download do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
 
-Capybara.default_driver = :firefox_auto_download
-include Capybara::DSL
-visit(starting_url)
+session = Capybara::Session.new(:firefox_auto_download)
+session.visit(starting_url)
 sleep 5
-find(:xpath, '//span[text()="Download"]').click
+session.find(:xpath, '//span[text()="Download"]').click
 sleep 5
 
 loop do
