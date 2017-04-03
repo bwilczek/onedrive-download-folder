@@ -3,8 +3,11 @@
 
 ```
 docker build -t onedrive .
-docker run --rm -v /path/to/download:/download onedrive '$URL'
-sudo chown -R $USER /path/to/download
+docker run --rm \
+  -u $(id -u $USER):$(id -g $USER) \
+  -e HOME=/tmp \
+  -v /path/to/download:/download \
+  onedrive '$URL'
 ```
 
 After `docker run` is finished files from the onedrive shared folder
@@ -16,4 +19,3 @@ which is by default interpreted by `bash`.
 ### TODO ###
 
 * get rid of `including Capybara::DSL in the global scope is not recommended!`
-* take care of permissions/ownership of extracted files (currently it's `root`)
