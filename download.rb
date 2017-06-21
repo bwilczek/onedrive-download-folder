@@ -27,7 +27,7 @@ session.visit(starting_url)
 
 if mode.nil?
   # default mode, download zipped folder
-  sleep 5
+  sleep 10
   session.find(:xpath, '//span[text()="Download"]').click
   sleep 5
 
@@ -37,7 +37,7 @@ if mode.nil?
   end
 
 elsif mode == 'root_files'
-  sleep 5
+  sleep 10
   # only download files in the root directory, no recursion
   elements = session.all(:xpath, '//div[contains(@class, "is-file")]//div[@class="ItemTile-name"]')
   elements.each do |el|
