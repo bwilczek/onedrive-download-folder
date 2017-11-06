@@ -47,14 +47,17 @@ elsif mode == 'root_files'
     el.click
     sleep 2
   end
-  puts "Downloading #{elements.count} elements"
+  puts "Downloading #{elements.count} elements to #{download_dir}"
   session.find(:xpath, '//span[text()="Download"]').click
+  puts " > link clicked"
 
   loop do
+    puts " > in  progress"
     sleep 1
     # listing = Dir.entries(download_dir)
     # break unless ( listing.to_s.include? '.kml.part' || listing.count < elements.count+2 )
     break unless Dir.entries(download_dir).to_s.include? '.zip.part'
   end
+  puts " > done"
 
 end
