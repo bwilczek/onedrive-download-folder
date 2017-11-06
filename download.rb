@@ -11,7 +11,7 @@ puts "URL: #{starting_url}"
 mode = ARGV[1]
 
 # set as container volume, change for local test without container
-download_dir = '/download'
+download_dir = ENV['DOWNLOAD_DIR'] || '/download'
 
 Capybara.register_driver :firefox_auto_download do |app|
   profile = Selenium::WebDriver::Firefox::Profile.new
@@ -39,18 +39,22 @@ if mode.nil?
 elsif mode == 'root_files'
   sleep 10
   # only download files in the root directory, no recursion
-  elements = session.all(:xpath, '//div[contains(@class, "is-file")]//div[@class="ItemTile-name"]')
+  elements = session.all(:xpath, '//div[contains(@class, "is-file")]//span[@class="ItemCheck"]')
   elements.each do |el|
-    puts el.text
+    # puts el.find(:xpath, '//div[@class="ItemTile-name"]').text
+    el.hover
+    sleep 1
     el.click
     sleep 2
   end
   puts "Downloading #{elements.count} elements"
+  session.find(:xpath, '//span[text()="Download"]').click
 
   loop do
     sleep 1
-    listing = Dir.entries(download_dir)
-    break unless ( listing.to_s.include? '.kml.part' || listing.count < elements.count+2 )
+    # listing = Dir.entries(download_dir)
+    # break unless ( listing.to_s.include? '.kml.part' || listing.count < elements.count+2 )
+    break unless Dir.entries(download_dir).to_s.include? '.zip.part'
   end
 
 end
