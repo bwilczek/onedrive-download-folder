@@ -37,19 +37,19 @@ if mode.nil?
   end
 
 elsif mode == 'root_files'
-  sleep 10
+  sleep 20
   # only download files in the root directory, no recursion
   elements = session.all(:xpath, '//div[contains(@class, "is-file")]//span[@class="ItemCheck"]')
   elements.each do |el|
     # puts el.find(:xpath, '//div[@class="ItemTile-name"]').text
     el.hover
-    sleep 1
+    sleep 2
     el.click
     sleep 2
   end
   puts "Downloading #{elements.count} elements to #{download_dir}"
   session.find(:xpath, '//span[text()="Download"]').click
-  puts " > link clicked"
+  puts " > 'Download' link clicked"
 
   loop do
     puts " > in  progress"
