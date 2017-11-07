@@ -51,7 +51,7 @@ elsif mode == 'root_files'
   puts "Downloading #{elements.count} elements to #{download_dir}"
   session.find(:xpath, '//span[text()="Download"]').click
   puts " > 'Download' link clicked"
-  sleep 5
+  sleep 10
 
   loop do
     puts " > in progress"
