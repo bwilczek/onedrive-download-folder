@@ -39,27 +39,31 @@ if mode.nil?
 elsif mode == 'root_files'
   sleep 10
   # only download files in the root directory, no recursion
-  elements = session.all(:xpath, '//div[contains(@class, "is-file")]//span[@class="ItemCheck"]')
-  elements.each do |el|
-    # puts el.find(:xpath, '//div[@class="ItemTile-name"]').text
-    puts " > Hover+Click on a file..."
-    el.hover
-    sleep 2
-    el.click
-    sleep 2
-  end
-  puts "Downloading #{elements.count} elements to #{download_dir}"
-  session.find(:xpath, '//span[text()="Download"]').click
-  puts " > 'Download' link clicked"
-  sleep 10
+  elements = session.all(:xpath, '(//div[contains(@class, "ms-Tile")]//span[contains(@class,"ms-Tile-check")])[position()>1]')
+  unless elements.empty?
+    elements.each do |el|
+      # puts el.find(:xpath, '//div[@class="ItemTile-name"]').text
+      puts " > Hover+Click on a file..."
+      el.hover
+      sleep 2
+      el.click
+      sleep 2
+    end
+    puts "Downloading #{elements.count} elements to #{download_dir}"
+    session.find(:xpath, '//span[text()="Download"]').click
+    puts " > 'Download' link clicked"
+    sleep 15
 
-  loop do
-    puts " > in progress"
-    sleep 1
-    # listing = Dir.entries(download_dir)
-    # break unless ( listing.to_s.include? '.kml.part' || listing.count < elements.count+2 )
-    break unless Dir.entries(download_dir).to_s.include? '.zip.part'
+    loop do
+      puts " > in progress"
+      sleep 1
+      # listing = Dir.entries(download_dir)
+      # break unless ( listing.to_s.include? '.kml.part' || listing.count < elements.count+2 )
+      break unless Dir.entries(download_dir).to_s.include? '.zip.part'
+    end
+    puts " > done"
+  else
+    puts "No files found"
   end
-  puts " > done"
 
 end
